@@ -12,12 +12,5 @@ struct Airplane {
     double capacity;     // Грузоподъёмность, т
 };
 
-// Прототипы функций
-void print_help(char* prog_name);
-void create(Airplane& a, int index);
-void print_header();
-void print_row(Airplane a);
-int  save_row(char* filename, Airplane* arr, int n);
-int  load_row(char* filename, Airplane* arr, int n);
 
 #endif
