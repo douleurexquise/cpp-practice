@@ -14,6 +14,7 @@ class Airplane {
     const char* get_type(){
         return type;
       }
+    ~Airplane();
     const char* get_constructor(){
         return constructor;
     }
