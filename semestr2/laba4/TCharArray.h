@@ -2,9 +2,9 @@
 #define TCHARARRAY_H
 #include <cstddef>
 class TCharArray {
-private:
+protected:
     char* buffer;
-    size_t len;
+    size_t length;
 public:
     TCharArray();
     TCharArray(const char* str);

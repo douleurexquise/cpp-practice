@@ -1,7 +1,7 @@
 /*
 **************************************************************************
 * Нижегородский государственный технический университет *
-* Лабораторная работа №3 . Задание 1. *
+* Лабораторная работа №4 . Задание 1. *
 * Выполнил студент группы 24-ВМв Ложкин Степан Владимирович *
 **************************************************************************
 */
@@ -10,29 +10,23 @@
 #include "mylib.h"
 using namespace std;
 //Прототипы функций
-    const char* get_type();
-    const char* get_constructor();
-    int get_year();
-    int get_seats();
-    double get_capacity();
-    void set_type(const char* _type);
-    void set_constructor(const char* _constructor);
-    void set_year(int _year);
-    void set_seats(int _seats);
-    void set_capacity(double _capacity);
     void print_help(const char* prog_name);
     bool read_string(const char* request, char* buffer);
     bool read_int(const char* request, int& buffer);
     bool read_double(const char* request, double& buffer);
     void print_header();
-    void print_row(Airplane a);
-    int  save_row(const char* filename, Airplane* arr, int n);
-    int  load_row(const char* filename, Airplane* arr, int n);
+    void print_row(Airplane& a);
+    int save_row(const char* filename, Airplane* arr, int n);
+    int load_row(const char* filename, Airplane* arr, int n);
+    int create(int n, const char* filename);
+    int read(int n, const char* filename);
+    int append(int n, const char* filename);
+    int edit(int index, const char* filename);
 int main(int argc, char* argv[]) {
     char logo[]=
  "**************************************************************************\n"
  "* Нижегородский государственный технический университет *\n"
- "* Лабораторная работа №3 . Задание 1. *\n"
+ "* Лабораторная работа №4 . Задание 1. *\n"
  "* Выполнил студент группы 24-ВМв Ложкин Степан Владимирович*\n"
  "**************************************************************************\n";
 	cout << logo;
@@ -65,75 +59,27 @@ int main(int argc, char* argv[]) {
         return 0;
     }
     bool is_create = (key == "-c" || key == "--create");
-    bool is_read   = (key == "-r" || key == "--read");
-    if (!is_create && !is_read) {
+    bool is_read = (key == "-r" || key == "--read");
+    bool is_append = (key == "-a" || key == "--append");
+    bool is_edit = (key == "-e" || key == "--edit");
+    if (!(is_create || is_read || is_append || is_edit)) {
         cout << "Ошибка: неизвестный ключ '" << key << "'.\n"
-             << "Допустимые ключи: -c, -r, -h\n";
+             << "Допустимые ключи: -h, -c, -r, -a, -e\n";
         return 0;
     }
-    Airplane* arr = new Airplane[n];
-    if (is_create) {
-    cout << "Режим создания. Введите " << n << " записей:\n";
-    bool valid = true;
-    for (int i = 0; i < n && valid; i++) {
-        char type[30];
-        char constructor[30];
-        int year;
-        int seats;
-        double capacity;
-        cout << "\nЗапись №" << i + 1 << endl;
-        if (!read_string("Введите тип самолета: ", type)){
-            valid = false;
-            break;
-        }
-        if (!read_string("Введите фамилию конструктора: ", constructor)){
-            valid = false;
-            break;
-        }
-        if (!read_int("Введите год выпуска: ", year)){
-            valid = false;
-            break;
-        }
-        if (!read_int("Введите количество кресел: ", seats)){
-            valid = false;
-            break;
-        }
-        if (!read_double("Введите грузоподъемность в т.: ", capacity)){
-            valid = false;
-            break;
-        }
-        arr[i] = Airplane(type, constructor, year, seats, capacity);
+    if(is_create){
+        create(n, filename);
+        cout << "Созданы записи\n";
     }
-
-    if (!valid) {
-        delete[] arr;
-        return 0;
+    if(is_read){
+        read(n, filename);
     }
-    if (save_row(filename, arr, n) != 0) {
-        delete[] arr;
-        return 0;
+    if(is_append){
+        append(n, filename);
+        cout << "Записи добавлены\n";
     }
-}
-    else {
-        cout << "Режим чтения. Файл: '" << filename
-             << "', запрос: " << n << " записей\n";
-        int count = load_row(filename, arr, n);
-        if (count < 0) {
-            delete[] arr;
-            return 0;
-        }
-        if (count > 0) {
-            print_header();
-            for (int i = 0; i < count; i++) {
-                print_row(arr[i]);
-            }
-            cout << "\nВыведено записей: " << count;
-            if (count < n) {
-                cout << " (в файле было меньше " << n << ")";
-            }
-            cout << "\n";
-        }
+    if(is_edit){
+        edit(n, filename);
     }
-    delete[] arr;
-    return 0;
+return 0;
 }

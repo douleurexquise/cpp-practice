@@ -1,8 +1,6 @@
 #ifndef STRING_H
 #define STRING_H
-
 #include "TCharArray.h"
-
 class String : public TCharArray {
 public:
     String();

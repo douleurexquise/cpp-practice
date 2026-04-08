@@ -2,24 +2,8 @@
 #include <fstream>
 #include <iomanip>
 #include <limits>
-#include "mylib.h"
+#include "Airplane.h"
 using namespace std;
-Airplane::Airplane() {
-    type[0] = '\0';
-    constructor[0] = '\0';
-    year = 0;
-    seats = 0;
-    capacity = 0.0;
-}
-
-Airplane::Airplane(const char* _type, const char* _constructor,
-                   int _year, int _seats, double _capacity) {
-    set_type(_type);
-    set_constructor(_constructor);
-    set_year(_year);
-    set_seats(_seats);
-    set_capacity(_capacity);
-}
 void print_help(const char* prog_name){
     cout << "Справка по программе:\n" << prog_name <<
     " --help или -h - вызов справки\n" << prog_name <<
@@ -57,41 +41,6 @@ bool read_double(const char* request, double& buffer){
     }
     return true;
 }
-// Можно обойтись без функции, тк в main проверяется валидность каждой вводимой строки, затем создается экземляр класса через конструктор
-/*void create(Airplane& a, int index){
-    char str[30];
-    int year, seats;
-    double capacity;
-    cout << "\nЗапись №" << index + 1 << endl;
-    cout << "Введите тип самолета: ";
-    cin >> str;
-    a.set_type(str);
-    cout << "Введите фамилию конструктора: ";
-    cin >> str;
-    a.set_constructor(str);
-    cout << "Введите год выпуска: ";
-    cin >> year;
-    if(!cin.good()){
-        cout << "Введите целое число" << endl;
-        return;
-    }
-    a.set_year(year);
-    cout << "Введите количество кресел: ";
-    cin >> seats;
-    if(!cin.good()){
-        cout << "Введите целое число" << endl;
-        return;
-    }
-    a.set_seats(seats);
-    cout << "Введите грузоподъемность в тоннах: ";
-    cin >> capacity;
-    if(!cin.good()){
-        cout << "Введите целое число" << endl;
-        return;
-    }
-    a.set_capacity(capacity);
-}
-*/
 void print_header() {
     cout << "\n" << left << setw(20) << "Тип"
               << setw(20) << "Конструктор"
@@ -100,7 +49,6 @@ void print_header() {
               << setw(20) << "Грузоподъемность(т)"
               << "\n" << endl;
 }
-
 void print_row(Airplane a) {
     cout << left
          << setw(20) << a.get_type()
@@ -110,7 +58,6 @@ void print_row(Airplane a) {
          << setw(20) << a.get_capacity()
          << "\n";
 }
-
 int save_row(const char* filename, Airplane* arr, int size){
     ofstream file(filename);
     if (!file.is_open()) {
@@ -123,13 +70,12 @@ int save_row(const char* filename, Airplane* arr, int size){
              << plane.get_constructor() << " "
              << plane.get_year() << " "
              << plane.get_seats() << " "
-             << plane.get_capacity() << "\n";
+             << plane.get_capacity() << endl;
     }
     file.close();
     cout << "Строка сохранена" << endl;
     return 0;
 }
-
 int load_row(const char* filename, Airplane* arr, int n){
     ifstream file(filename);
     if (!file.is_open()) {
