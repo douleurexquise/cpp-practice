@@ -13,6 +13,7 @@ public:
     void set(const char* str);
     char* get();
     char& operator[](int index);
+    TCharArray& operator=(const TCharArray& other);
     char& at(int index);
     size_t size() const;
 };

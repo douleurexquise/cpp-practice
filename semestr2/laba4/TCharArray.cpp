@@ -12,7 +12,7 @@ TCharArray::TCharArray(const char* str) {
 }
 TCharArray::TCharArray(const TCharArray& other){
     length = other.length;
-    buffer = new char[length];
+    buffer = new char[length + 1];
     strcpy(buffer, other.buffer);
 }
 TCharArray::~TCharArray() {
@@ -29,6 +29,19 @@ char* TCharArray::get() {
 }
 char& TCharArray::operator[](int index) {
     return buffer[index];
+}
+TCharArray& TCharArray::operator=(const TCharArray& other) {
+    if (this == &other)
+        return *this;
+    delete[] buffer;
+    length = other.length;
+    if (other.buffer != nullptr) {
+        buffer = new char[length + 1];
+        strcpy(buffer, other.buffer);
+    } else {
+        buffer = nullptr;
+    }
+    return *this;
 }
 char& TCharArray::at(int index) {
     assert(index >= 0 && index < (int)length);
