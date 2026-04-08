@@ -8,6 +8,7 @@ private:
 public:
     TCharArray();
     TCharArray(const char* str);
+    TCharArray(const TCharArray& other);
     ~TCharArray();
     void set(const char* str);
     char* get();

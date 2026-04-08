@@ -1,14 +1,20 @@
 #include "TCharArray.h"
 #include <cstring>
 #include <cassert>
+
 TCharArray::TCharArray(){
     length = 0;
     buffer = nullptr;
 };
 TCharArray::TCharArray(const char* str) {
     length = strlen(str);
-    buffer = new char[len];
+    buffer = new char[len+1]; // +1 для символа '\0'
     strcpy(buffer, str);
+}
+TCharArray::TCharArray(const TCharArray& other){
+    length = other.len;
+    buffer = new char[len];
+    strcpy(buffer, other.buffer);
 }
 TCharArray::~TCharArray() {
     delete[] buffer;
