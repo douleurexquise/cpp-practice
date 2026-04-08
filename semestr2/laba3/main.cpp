@@ -10,16 +10,6 @@
 #include "mylib.h"
 using namespace std;
 //Прототипы функций
-    const char* get_type();
-    const char* get_constructor();
-    int get_year();
-    int get_seats();
-    double get_capacity();
-    void set_type(const char* _type);
-    void set_constructor(const char* _constructor);
-    void set_year(int _year);
-    void set_seats(int _seats);
-    void set_capacity(double _capacity);
     void print_help(const char* prog_name);
     bool read_string(const char* request, char* buffer);
     bool read_int(const char* request, int& buffer);
@@ -28,6 +18,7 @@ using namespace std;
     void print_row(Airplane a);
     int  save_row(const char* filename, Airplane* arr, int n);
     int  load_row(const char* filename, Airplane* arr, int n);
+
 int main(int argc, char* argv[]) {
     char logo[]=
  "**************************************************************************\n"

@@ -11,7 +11,6 @@ Airplane::Airplane() {
     seats = 0;
     capacity = 0.0;
 }
-
 Airplane::Airplane(const char* _type, const char* _constructor,
                    int _year, int _seats, double _capacity) {
     set_type(_type);
@@ -20,6 +19,39 @@ Airplane::Airplane(const char* _type, const char* _constructor,
     set_seats(_seats);
     set_capacity(_capacity);
 }
+Airplane::~Airplane(){};
+    const char* Airplane::get_type(){
+        return type;
+    }
+    const char* Airplane::get_constructor(){
+        return constructor;
+    }
+    int Airplane::get_year(){
+        return year;
+    }
+    int Airplane::get_seats(){
+        return seats;
+    }
+    double Airplane::get_capacity(){
+        return capacity;
+    }
+    void Airplane::set_type(const char* _type){
+        strncpy(type, _type, 29);
+        type[29] = '\0';
+    }
+    void Airplane::set_constructor(const char* _constructor){
+        strncpy(constructor, _constructor, 29);
+        constructor[29] = '\0';
+    }
+    void Airplane::set_year(int _year){
+        year = _year;
+    }
+    void Airplane::set_seats(int _seats){
+        seats = _seats;
+    }
+    void Airplane::set_capacity(double _capacity){
+        capacity = _capacity;
+    }
 void print_help(const char* prog_name){
     cout << "Справка по программе:\n" << prog_name <<
     " --help или -h - вызов справки\n" << prog_name <<

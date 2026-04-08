@@ -11,38 +11,17 @@ class Airplane {
     public:
     Airplane();
     Airplane(const char*,const char*,int,int,double);
-    const char* get_type(){
-        return type;
-      }
-    const char* get_constructor(){
-        return constructor;
-    }
-    int get_year(){
-        return year;
-    }
-    int get_seats(){
-        return seats;
-    }
-    double get_capacity(){
-        return capacity;
-    }
-    void set_type(const char* _type){
-        strncpy(type, _type, 29);
-        type[29] = '\0';
-    }
-    void set_constructor(const char* _constructor){
-        strncpy(constructor, _constructor, 29);
-        constructor[29] = '\0';
-    }
-    void set_year(int _year){
-        year = _year;
-    }
-    void set_seats(int _seats){
-        seats = _seats;
-    }
-    void set_capacity(double _capacity){
-        capacity = _capacity;
-    }
+    ~Airplane();
+    const char* get_type();
+    const char* get_constructor();
+    int get_year();
+    int get_seats();
+    double get_capacity();
+    void set_type(const char* _type);
+    void set_constructor(const char* _constructor);
+    void set_year(int _year);
+    void set_seats(int _seats);
+    void set_capacity(double _capacity);
 };
 
 #endif
