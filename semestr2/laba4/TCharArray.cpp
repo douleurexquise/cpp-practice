@@ -1,47 +1,34 @@
 #include "TCharArray.h"
 #include <cstring>
-#include <stdexcept>
-
-TCharArray::TCharArray() : buf(nullptr), len(0) {}
-
+#include <cassert>
+TCharArray::TCharArray(){
+    length = 0;
+    buffer = nullptr;
+};
 TCharArray::TCharArray(const char* str) {
-    len = strlen(str);
-    buf = new char[len + 1];
-    strcpy(buf, str);
+    length = strlen(str);
+    buffer = new char[len];
+    strcpy(buffer, str);
 }
-
-TCharArray::TCharArray(const TCharArray& other) {
-    len = other.len;
-    buf = new char[len + 1];
-    strcpy(buf, other.buf);
-}
-
 TCharArray::~TCharArray() {
-    delete[] buf;
+    delete[] buffer;
 }
-
 void TCharArray::set(const char* str) {
     delete[] buf;
     len = strlen(str);
     buf = new char[len + 1];
     strcpy(buf, str);
 }
-
 char* TCharArray::get() {
-    return buf;
+    return buffer;
 }
-
 char& TCharArray::operator[](int index) {
-    return buf[index];
+    return buffer[index];
 }
-
 char& TCharArray::at(int index) {
-    if (index < 0 || index >= (int)len) {
-        throw std::out_of_range("Index out of range");
-    }
-    return buf[index];
+    assert(index >= 0 && index < (int)length);
+    return buffer[index];
 }
-
 size_t TCharArray::size() const {
-    return len;
+    return length;
 }

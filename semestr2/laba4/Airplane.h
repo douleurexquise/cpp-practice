@@ -14,13 +14,11 @@ private:
 public:
     Airplane();
     Airplane(const char*, const char*, int, int, double);
-
     const char* get_type();
     const char* get_constructor();
     int get_year();
     int get_seats();
     double get_capacity();
-
     void set_type(const char*);
     void set_constructor(const char*);
     void set_year(int);

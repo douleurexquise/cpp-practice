@@ -3,12 +3,11 @@
 #include <cstddef>
 class TCharArray {
 private:
-    char* buf;
+    char* buffer;
     size_t len;
 public:
     TCharArray();
     TCharArray(const char* str);
-    TCharArray(const TCharArray& other);
     ~TCharArray();
     void set(const char* str);
     char* get();

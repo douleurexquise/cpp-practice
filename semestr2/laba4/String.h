@@ -8,9 +8,7 @@ public:
     String();
     String(const char* str);
     String(const String& other);
-
     String operator+(const String& other);
-
     bool operator==(const String& other);
     bool operator!=(const String& other);
     bool operator>(const String& other);
