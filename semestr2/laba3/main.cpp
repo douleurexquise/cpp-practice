@@ -18,7 +18,7 @@ using namespace std;
     void print_row(Airplane a);
     int  save_row(const char* filename, Airplane* arr, int n);
     int  load_row(const char* filename, Airplane* arr, int n);
-
+//TODO: добавить проверку на количество записей
 int main(int argc, char* argv[]) {
     char logo[]=
  "**************************************************************************\n"
