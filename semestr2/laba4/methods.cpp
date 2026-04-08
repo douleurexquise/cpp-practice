@@ -87,9 +87,11 @@ int load_row(const char* filename, Airplane* arr, int n){
         return -1;
     }
     int totalCount;
-    file >> totalCount;
-    if (totalCount <= 0) {
+    if (!(file >> totalCount) || totalCount <= 0) {
         cout << "Файл '" << filename << "' пуст или содержит некорректные данные.\n";
+        file.close();
+        arr = nullptr;
+        return -1;
     }
     int arrSize;
     if(n > totalCount){
@@ -174,13 +176,20 @@ int create(int n, const char* filename){
     return 0;
 }
 int read(int n, const char* filename){
+    ifstream file(filename);
+    if(!file.is_open()){
+        cout << "Ошибка чтения файла\n";
+        return -1;
+    }
     Airplane* arr = new Airplane[n];
     cout << "Режим чтения. Файл: '" << filename
          << "', запрос: " << n << " записей\n";
+    int countRecords;
+    file >> countRecords;
     int count = load_row(filename, arr, n);
     if (count < 0) {
             delete[] arr;
-            return 0;
+            return -1;
         }
     if (count > 0) {
         print_header();
@@ -193,6 +202,7 @@ int read(int n, const char* filename){
             }
             cout << "\n";
         }
+        file.close();
         delete[] arr;
         return 0;
     }
