@@ -7,7 +7,7 @@
 */
 #include <iostream>
 #include <string>
-#include "mylib.h"
+#include "Airplane.h"
 using namespace std;
 //Прототипы функций
     void print_help(const char* prog_name);
@@ -56,6 +56,10 @@ int main(int argc, char* argv[]) {
     char* filename = argv[3];
     if (n <= 0) {
         cout << "Ошибка: N должно быть положительным числом.\n";
+        return 0;
+    }
+    if (n > 1000){
+        cout << "Слишком большое число записей\n";
         return 0;
     }
     bool is_create = (key == "-c" || key == "--create");

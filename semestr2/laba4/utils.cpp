@@ -81,22 +81,20 @@ int save_row(const char* filename, Airplane* arr, int size) {
     file.close();
     return 0;
 }
-int load_row(const char* filename, Airplane** out_arr, int n) {
+int load_row(const char* filename, Airplane*& arr, int n) {
     ifstream file(filename);
     if (!file.is_open()) {
         cout << "Не удалось открыть файл '" << filename << "'\n";
         return -1;
     }
-
     int total;
     if (!(file >> total) || total <= 0) {
         cout << "Файл пуст или повреждён\n";
-        *out_arr = nullptr;
+        arr = nullptr;
         return 0;
     }
-
     int arrSize = (n < total) ? n : total;
-    *out_arr = new Airplane[arrSize];
+    arr = new Airplane[arrSize];
 
     char type[256], constructor[256];
     int year, seats;
@@ -105,11 +103,11 @@ int load_row(const char* filename, Airplane** out_arr, int n) {
 
     while (count < arrSize &&
            file >> type >> constructor >> year >> seats >> capacity) {
-        (*out_arr)[count].set_type(type);
-        (*out_arr)[count].set_constructor(constructor);
-        (*out_arr)[count].set_year(year);
-        (*out_arr)[count].set_seats(seats);
-        (*out_arr)[count].set_capacity(capacity);
+        arr[count].set_type(type);
+        arr[count].set_constructor(constructor);
+        arr[count].set_year(year);
+        arr[count].set_seats(seats);
+        arr[count].set_capacity(capacity);
         count++;
     }
 
@@ -149,8 +147,7 @@ int create(int n, const char* filename) {
 
 int read(int n, const char* filename) {
     Airplane* arr = nullptr;
-
-    int count = load_row(filename, &arr, n);
+    int count = load_row(filename, arr, n);
     if (count < 0) return -1;
     if (count == 0) {
         cout << "Нет данных для вывода\n";
@@ -160,38 +157,28 @@ int read(int n, const char* filename) {
     print_header();
     for (int i = 0; i < count; i++)
         print_row(arr[i]);
-
     cout << "\nВыведено записей: " << count << "\n";
-
     delete[] arr;
     return 0;
 }
-
 int append(int n, const char* filename) {
     Airplane* oldArr = nullptr;
-    int oldCount = load_row(filename, &oldArr, 10000);
-
+    int oldCount = load_row(filename, oldArr, 1000);
     if (oldCount < 0) {
         cout << "Файл не найден, создаём новый\n";
         return create(n, filename);
     }
-
     int newCount = oldCount + n;
     Airplane* newArr = new Airplane[newCount];
-
     for (int i = 0; i < oldCount; i++)
         newArr[i] = oldArr[i];
     delete[] oldArr;
-
     cout << "Добавление " << n << " записей:\n";
-
     for (int i = oldCount; i < newCount; i++) {
         String type, constructor;
         int year, seats;
         double capacity;
-
         cout << "\nЗапись " << i + 1 << ":\n";
-
         if (!read_string("Тип самолета: ", type) ||
             !read_string("Фамилия конструктора: ", constructor) ||
             !read_int("Год выпуска: ", year) ||
@@ -201,43 +188,32 @@ int append(int n, const char* filename) {
             delete[] newArr;
             return -1;
         }
-
         newArr[i] = Airplane(type.get(), constructor.get(), year, seats, capacity);
     }
-
     int result = save_row(filename, newArr, newCount);
     delete[] newArr;
-
     if (result == 0)
         cout << "Добавлено " << n << " записей, всего: " << newCount << "\n";
-
     return result;
 }
-
 int edit(int index, const char* filename) {
     Airplane* arr = nullptr;
-    int count = load_row(filename, &arr, 10000);
-
+    int count = load_row(filename, arr, 1000);
     if (count <= 0) {
         cout << "Файл пуст или не найден\n";
         return -1;
     }
-
     if (index < 1 || index > count) {
         cout << "Записи " << index << " не существует (всего: " << count << ")\n";
         delete[] arr;
         return -1;
     }
-
     cout << "\nРедактирование записи " << index << ".\nТекущие данные:\n";
     print_row(arr[index - 1]);
-
     String type, constructor;
     int year, seats;
     double capacity;
-
     cout << "\nНовые данные:\n";
-
     if (!read_string("Тип самолета: ", type) ||
         !read_string("Фамилия конструктора: ", constructor) ||
         !read_int("Год выпуска: ", year) ||
@@ -247,14 +223,10 @@ int edit(int index, const char* filename) {
         delete[] arr;
         return -1;
     }
-
     arr[index - 1] = Airplane(type.get(), constructor.get(), year, seats, capacity);
-
     int result = save_row(filename, arr, count);
     delete[] arr;
-
     if (result == 0)
         cout << "Запись " << index << " обновлена\n";
-
     return result;
 }
