@@ -1,8 +1,6 @@
 #include "Elevator.h"
 #include <iostream>
 #include <fstream>
-#define INPUT "<< INPUT >>"
-#define OUTPUT "<< OUTPUT >> "
 using namespace std;
 Elevator::Elevator() {
     floors = 0;
@@ -11,8 +9,9 @@ Elevator::Elevator() {
     accessCode = "";
 }
 
-void Elevator::setConfig(int f, int lf, const string& code) {
+void Elevator::setConfig(int f,bool hasLF, int lf, const string& code) {
     floors = f;
+    hasLockedFloor = hasLF;
     lockedFloor = lf;
     accessCode = code;
 }
@@ -20,25 +19,48 @@ void Elevator::setConfig(int f, int lf, const string& code) {
 void Elevator::saveConfig(const string& filename) {
     ofstream file(filename);
     file << floors << endl;
-    file << lockedFloor << endl;
-    file << accessCode << endl;
+    if(hasLockedFloor){
+        file << "YES" << endl;
+        file << lockedFloor << endl;
+        file << accessCode << endl;
+    }
+    else{
+        file << "NO" << endl;
+    }
     file.close();
 }
 
-void Elevator::loadConfig(const string& filename) {
+int Elevator::loadConfig(const string& filename) {
     ifstream file(filename);
     if (!file) {
         cout << "Ошибка загрузки конфигурации\n";
-        return;
+        return -1;
     }
     file >> floors;
-    file >> lockedFloor;
-    file >> accessCode;
+    string str;
+    file >> str;
+    if(str == "YES"){
+        hasLockedFloor = true;
+    }
+    else if(str == "NO"){
+        hasLockedFloor = false;
+    }
+    else{
+        cout << "Ошибка, ожидается YES или NO\n";
+        file.close();
+        floors = 0;
+        return -1;
+    }
+    if(hasLockedFloor){
+        file >> lockedFloor;
+        file >> accessCode;
+    }
     file.close();
+    return 0;
 }
 
 bool Elevator::checkAccess(int floor, const string& code) {
-    if (floor == lockedFloor) {
+    if (hasLockedFloor && floor == lockedFloor) {
         return code == accessCode;
     }
     return true;
@@ -46,17 +68,17 @@ bool Elevator::checkAccess(int floor, const string& code) {
 
 void Elevator::moveToFloor(int targetFloor) {
     if (targetFloor < 1 || targetFloor > floors) {
-        cout << OUTPUT <<  "Неверный этаж\n";
+        cout  <<  "Неверный этаж\n";
         return;
     }
 
     if (targetFloor > currentFloor) {
         for (int i = currentFloor + 1; i <= targetFloor; i++) {
-            cout << OUTPUT << i << endl;
+            cout << "Текущий этаж: " << i << endl;
         }
     } else if (targetFloor < currentFloor) {
         for (int i = currentFloor - 1; i >= targetFloor; i--) {
-            cout << OUTPUT << i << endl;
+            cout << "Текущий этаж: " << i << endl;
         }
     }
     currentFloor = targetFloor;

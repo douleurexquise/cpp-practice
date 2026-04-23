@@ -7,12 +7,13 @@ private:
     int floors;
     int currentFloor;
     int lockedFloor;
+    bool hasLockedFloor;
     string accessCode;
 public:
     Elevator();
-    void loadConfig(const string& filename);
+    int loadConfig(const string& filename);
     void saveConfig(const string& filename);
-    void setConfig(int floors, int lockedFloor, const string& code);
+    void setConfig(int floors,bool hasLocked, int lockedFloor, const string& code);
     void moveToFloor(int targetFloor);
     bool checkAccess(int floor, const string& code);
 };

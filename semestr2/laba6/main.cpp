@@ -7,8 +7,7 @@
 */
 #include "Elevator.h"
 #include <iostream>
-#define INPUT "<< INPUT >>"
-#define OUTPUT "<< OUTPUT >> "
+#include <limits>
 using namespace std;
 int main(int argc, char* argv[]) {
         char logo[]=
@@ -20,39 +19,66 @@ int main(int argc, char* argv[]) {
 	cout << logo;
     Elevator elevator;
     string configFile = "config.txt";
-
-    // --- Режим конфигурации ---
+    // config mode
     if (argc == 3) {
         string user = argv[1];
         string password = argv[2];
-        if (user != "admin" || password != "_SuperUser5422") {
+        if (user != "admin" || password != "adm111") {
             cout << "Неверный логин или пароль\n";
             return 1;
         }
-        int floors, lockedFloor;
-        string code;
+        int floors, lockedFloor = -1;
+        string strLF, code = "";
+        bool hasLocked = false;
         cout << "Введите количество этажей: ";
-        cin >> floors;
-        cout << "Введите закрытый этаж (-1 если нет): ";
-        cin >> lockedFloor;
-        if (lockedFloor != -1) {
+        if (!(cin >> floors)) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout  << "Ошибка: введите число\n";
+            return 0;
+        }
+        if(floors > 25){
+            cout << "Должно быть не более 25 этажей\n";
+            floors = 0;
+            return 0;
+        }
+        cout << "Есть закрытый этаж(YES/NO): ";
+        cin >> strLF;
+        if(strLF == "YES"){
+            hasLocked = true;
+            cout << "Введите номер закрытого этажа: ";
+            cin >> lockedFloor;
             cout << "Введите код доступа: ";
             cin >> code;
         }
-        elevator.setConfig(floors, lockedFloor, code);
+        else if(strLF == "NO"){
+            hasLocked = false;
+        }
+        else{
+            cout << "Ошибка, введите YES или NO\n";
+            return 1;
+        }
+        elevator.setConfig(floors, hasLocked, lockedFloor, code);
         elevator.saveConfig(configFile);
         cout << "Конфигурация сохранена\n";
         return 0;
     }
-    // --- Рабочий режим ---
-    elevator.loadConfig(configFile);
+    // work mode
+    int confStatus = elevator.loadConfig(configFile);
+    if(confStatus == -1){
+        return 0;
+    }
     int command;
     while (true) {
-        cout << INPUT;
-        cin >> command;
-        if (command == 0) break;
-        if (command == -1) {
-            cout << "Выход\n";
+        cout << "Введите номер этажа\n";
+        if (!(cin >> command)) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout  << "Ошибка: введите число\n";
+            continue;
+        }
+        if (command == 0) {
+            cout <<"Выход\n";
             break;
         }
         if (!elevator.checkAccess(command, "")) {
@@ -60,11 +86,11 @@ int main(int argc, char* argv[]) {
             cout << "Введите код: ";
             cin >> code;
             if (!elevator.checkAccess(command, code)) {
-                cout << OUTPUT << "Доступ запрещен\n";
+                cout  << "Доступ запрещен\n";
                 continue;
             }
         }
         elevator.moveToFloor(command);
     }
     return 0;
-}
+    }
