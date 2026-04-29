@@ -7,14 +7,14 @@ Operation::Operation(string clientID, string type, int amount, string date)
     : clientID(clientID), type(type), amount(amount), date(date) {}
 
 string Operation::toCSV() const {
-    return clientID + ";" + type + ";" + to_string(amount) + ";" + date;
+    return clientID + "," + type + "," + to_string(amount) + "," + date;
 }
 
 Operation Operation::fromCSV(string line) {
     stringstream ss(line);
     string token;
     vector<string> parts;
-    while(getline(ss, token, ';')) parts.push_back(token);
+    while(getline(ss, token, ',')) parts.push_back(token);
     if(parts.size() == 4) return Operation(parts[0], parts[1], stoi(parts[2]), parts[3]);
     return Operation();
 }
