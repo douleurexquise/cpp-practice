@@ -20,20 +20,16 @@ public:
     void addAsset(string name, int value);
     void resetBalance();
     void changeBalance(int diff);
-
-    // Чтение данных -> всегда const
     bool deficit() const;
     int totalPledgeValue() const;
     string getClearingId() const;
     string getFirmName() const;
     string getAddress() const;
     int getBalance() const;
-
     const vector<string>& getBankIDs() const;
     const vector<string>& getAssets() const;
     const vector<int>& getAssetValues() const;
-
     void setBalance(int b);
     string toCSV() const;
-    static Client fromCSV(string line);
+    Client fromCSV(string line);
 };
