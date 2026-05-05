@@ -107,7 +107,7 @@ void ClearingCenter::generateReport(const string& startDate, const string& endDa
 }
 
 void ClearingCenter::saveData() {
-    ofstream outClients("clients.csv");
+    ofstream outClients("clients");
     if (outClients.is_open()) {
         for (const Client& c : clients)
             outClients << c.toCSV() << "\n";
@@ -115,7 +115,7 @@ void ClearingCenter::saveData() {
         cerr << "Ошибка: не удалось открыть clients.csv для записи.\n";
     }
 
-    ofstream outOps("operations.csv");
+    ofstream outOps("operations");
     if (outOps.is_open()) {
         for (const auto& op : history)
             outOps << op.toCSV() << "\n";
