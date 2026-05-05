@@ -1,55 +1,96 @@
 #include <iostream>
 #include <limits>
+#include <string>
 #include "ClearingCenter.h"
 using namespace std;
 
-int main(){
-    setlocale(LC_ALL, "ru_RU.UTF-8");
+static int readInt(const string& prompt) {
+    int val;
+    while (true) {
+        cout << prompt;
+        if (cin >> val) {
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            return val;
+        }
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Ошибка: введите целое число.\n";
+    }
+}
+
+static int readPositiveInt(const string& prompt) {
+    while (true) {
+        int val = readInt(prompt);
+        if (val > 0) return val;
+        cout << "Ошибка: значение должно быть больше 0.\n";
+    }
+}
+
+static string readString(const string& prompt) {
+    string s;
+    cout << prompt;
+    cin >> s;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    return s;
+}
+
+int main() {
     ClearingCenter center;
-    center.loadData(); // Загружаем прошлые сессии, если файлы есть
+    center.loadData();
 
     int choice = 0;
-    while(true){
-        cout << "\n=== КЛИРИНГОВЫЙ ЦЕНТР ===\n";
-        cout << "1. Добавить клиента\n";
-        cout << "2. Добавить операцию\n";
-        cout << "3. Завершить сессию (расчёт + предписания)\n";
-        cout << "4. Отчёт за период\n";
-        cout << "5. Выход\n";
-        cout << "Выбор: ";
-        if(!(cin >> choice)){ cin.clear(); cin.ignore(10000, '\n'); continue; }
+    while (true) {
+        cout << "\n=== КЛИРИНГОВЫЙ ЦЕНТР ===\n"
+             << "1. Добавить клиента\n"
+             << "2. Добавить операцию\n"
+             << "3. Завершить сессию\n"
+             << "4. Отчёт за период\n"
+             << "5. Выход\n"
+             << "Выбор: ";
 
-        if(choice == 1){
-            string id, name, addr; int bankCount;
-            cout << "ID счёта: "; cin >> id;
-            cout << "Название фирмы: "; cin >> name;
-            cout << "Адрес: "; cin >> addr;
+        if (!(cin >> choice)) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            continue;
+        }
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+        if (choice == 1) {
+            string id   = readString("ID счёта: ");
+            string name = readString("Название фирмы: ");
+            string addr = readString("Адрес: ");
             Client c(id, name, addr);
-            cout << "Кол-во банковских счетов: "; cin >> bankCount;
-            for(int i=0; i<bankCount; ++i){ string b; cout << "Счёт " << i+1 << ": "; cin >> b; c.addBankID(b); }
-            cout << "Кол-во активов: "; cin >> bankCount;
-            for(int i=0; i<bankCount; ++i){ string n; int v; cout << "Название: "; cin >> n; cout << "Залог: "; cin >> v; c.addAsset(n, v); }
+
+            int bankCount = readInt("Кол-во банковских счетов: ");
+            for (int i = 0; i < bankCount; ++i)
+                c.addBankID(readString("Счёт " + to_string(i + 1) + ": "));
+
+            int assetCount = readInt("Кол-во активов: ");
+            for (int i = 0; i < assetCount; ++i) {
+                string n = readString("Название актива: ");
+                int v    = readPositiveInt("Залоговая стоимость: ");
+                c.addAsset(n, v);
+            }
+
             center.addClient(c);
         }
-        else if(choice == 2){
-            string id, type, date; int amount;
-            cout << "ID клиента: "; cin >> id;
-            cout << "Тип (IN/OUT): "; cin >> type;
-            cout << "Сумма: "; cin >> amount;
-            cout << "Дата (DD.MM.YYYY): "; cin >> date;
+        else if (choice == 2) {
+            string id   = readString("ID клиента: ");
+            string type = readString("Тип (IN/OUT): ");
+            int amount  = readPositiveInt("Сумма: ");
+            string date = readString("Дата (DD.MM.YYYY): ");
             center.addOperation(id, type, amount, date);
         }
-        else if(choice == 3){
+        else if (choice == 3) {
             center.endSession();
         }
-        else if(choice == 4){
-            string s, e;
-            cout << "Начало периода: "; cin >> s;
-            cout << "Конец периода: "; cin >> e;
-            center.generateReport(s, e);
+        else if (choice == 4) {
+            string start = readString("Начало периода (DD.MM.YYYY): ");
+            string end   = readString("Конец периода  (DD.MM.YYYY): ");
+            center.generateReport(start, end);
         }
-        else if(choice == 5){
-            cout << "Сохранение перед выходом...\n";
+        else if (choice == 5) {
+            cout << "Сохранение...\n";
             center.saveData();
             break;
         }

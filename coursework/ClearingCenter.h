@@ -10,14 +10,17 @@ private:
     vector<Client> clients;
     vector<Operation> currentSession;
     vector<Operation> history;
+
 public:
     ClearingCenter();
 
     void addClient(const Client& c);
-    Client* findClient(string id);
-    void addOperation(string clientID, string type, int amount, string date);
+    Client* findClient(const string& id);
+
+    void addOperation(const string& clientID, const string& type, int amount, const string& date);
     void endSession();
-    void generateReport(string startDate, string endDate);
+    void generateReport(const string& startDate, const string& endDate);
+
     void saveData();
     void loadData();
 

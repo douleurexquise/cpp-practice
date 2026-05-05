@@ -6,14 +6,14 @@ using namespace std;
 class Operation {
 private:
     string clientID;
-    string type; // withdraw - вывод deposit - пополнение
+    string type; // IN - пополнение, OUT - вывод
     int amount;
     string date;
 public:
     Operation();
     Operation(string clientID, string type, int amount, string date);
     string toCSV() const;
-    static Operation fromCSV(string line);
+    static Operation fromCSV(const string& line);
     string getClientID() const;
     string getType() const;
     int getAmount() const;

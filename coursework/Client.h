@@ -31,5 +31,5 @@ public:
     const vector<int>& getAssetValues() const;
     void setBalance(int b);
     string toCSV() const;
-    Client fromCSV(string line);
+    static Client fromCSV(string line);
 };
