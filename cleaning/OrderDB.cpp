@@ -97,3 +97,15 @@ std::vector<Order> OrderDB::getOrdersByClientId(int clientId) const {
     }
     return result;
 }
+void OrderDB::closeShift(){
+    size_t i = 0;
+    while (i < orders.size()) {
+        if (orders[i].getStatus() == OrderStatus::Cancelled) {
+            orders.erase(orders.begin() + static_cast<std::ptrdiff_t>(i));
+        } else {
+            orders[i].setDays(orders[i].getDays() + 1);
+            ++i;
+        }
+    }
+    saveToFile();
+}

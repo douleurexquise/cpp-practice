@@ -66,7 +66,8 @@ int main() {
         std::cout << "3. Создать заказ" << std::endl;
         std::cout << "4. Посмотреть заказы" << std::endl;
         std::cout << "5. Изменить статус заказа" << std::endl;
-        std::cout << "6. Выход" << std::endl;
+        std::cout << "6. Закрыть смену" << std::endl;
+        std::cout << "7. Выход" << std::endl;
         std::cout << "Выберите действие: ";
 
         if (!(std::cin >> choice)) {
@@ -192,6 +193,10 @@ int main() {
                 break;
             }
             case 6:
+                orderDb.closeShift();
+                std::cout << "Смена закрыта." << std::endl;
+                break;
+            case 7:
                 std::cout << "Выход из программы. Данные сохранены." << std::endl;
                 return 0;
             default:

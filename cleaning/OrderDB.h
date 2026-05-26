@@ -24,6 +24,7 @@ public:
     Order getOrderById(int id) const;
     std::vector<Order> getAllOrders() const;
     std::vector<Order> getOrdersByClientId(int clientId) const;
+    void closeShift();
 };
 
 #endif
