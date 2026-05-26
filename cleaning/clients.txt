@@ -1,0 +1,7 @@
+1;Иванов Петр;ivanov@mail.ru
+2;Смирнова Анна;smirnova.a@yandex.ru
+3;Козлов Дмитрий;kozlov_d@mail.ru
+4;Новикова Елена;novikova.elena@gmail.com
+5;Морозов Сергей;morozov.s@inbox.ru
+6;asd;2
+7;Олег петров;petrov@mail.ru
