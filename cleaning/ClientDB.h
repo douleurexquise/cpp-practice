@@ -18,7 +18,6 @@ public:
     ClientDB();
     ~ClientDB();
     void addClient(const std::string& name, const std::string& email);
-    bool removeClient(int id);
     bool updateClient(int id, const std::string& name, const std::string& email);
     bool clientExists(int id) const;
     Client getClientById(int id) const;

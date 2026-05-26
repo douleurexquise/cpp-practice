@@ -39,17 +39,6 @@ void ClientDB::addClient(const std::string& name, const std::string& email) {
     saveToFile();
 }
 
-bool ClientDB::removeClient(int id) {
-    for (size_t i = 0; i < clients.size(); ++i) {
-        if (clients[i].getId() == id) {
-            clients.erase(clients.begin() + static_cast<std::ptrdiff_t>(i));
-            saveToFile();
-            return true;
-        }
-    }
-    return false;
-}
-
 bool ClientDB::updateClient(int id, const std::string& name, const std::string& email) {
     for (size_t i = 0; i < clients.size(); ++i) {
         if (clients[i].getId() == id) {

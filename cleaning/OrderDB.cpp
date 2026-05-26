@@ -38,18 +38,6 @@ void OrderDB::addOrder(int clientId, int days, OrderStatus status, bool isEmerge
     nextId++;
     saveToFile();
 }
-
-bool OrderDB::removeOrder(int id) {
-    for (size_t i = 0; i < orders.size(); ++i) {
-        if (orders[i].getId() == id) {
-            orders.erase(orders.begin() + static_cast<std::ptrdiff_t>(i));
-            saveToFile();
-            return true;
-        }
-    }
-    return false;
-}
-
 bool OrderDB::updateOrder(int id, int days, OrderStatus status, bool isEmergency, const std::vector<std::string>& items) {
     for (size_t i = 0; i < orders.size(); ++i) {
         if (orders[i].getId() == id) {

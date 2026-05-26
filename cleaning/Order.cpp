@@ -13,7 +13,7 @@ const std::vector<std::string>& Order::getCatalog() {
 }
 
 bool Order::isValidItem(const std::string& item) {
-    // Приводим ввод к нижнему регистру для нечувствительного сравнения
+    // приводим ввод к нижнему регистру
     std::string lowerItem = item;
     for (size_t k = 0; k < lowerItem.length(); ++k) {
         lowerItem[k] = std::tolower(static_cast<unsigned char>(lowerItem[k]));
@@ -57,7 +57,6 @@ Order::Order()
 Order::Order(int id, int clientId, int days, OrderStatus status, bool isEmergency, const std::vector<std::string>& items)
     : id(id), clientId(clientId), days(days), status(status), isEmergency(isEmergency), items(items) {}
 
-// Геттеры
 int Order::getId() const { return id; }
 int Order::getClientId() const { return clientId; }
 int Order::getDays() const { return days; }
@@ -65,7 +64,6 @@ OrderStatus Order::getStatus() const { return status; }
 bool Order::getIsEmergency() const { return isEmergency; }
 std::vector<std::string> Order::getItems() const { return items; }
 
-// Сеттеры
 void Order::setId(int id) { this->id = id; }
 void Order::setClientId(int id) { this->clientId = id; }
 void Order::setDays(int days) { this->days = days; }
@@ -73,7 +71,6 @@ void Order::setStatus(OrderStatus status) { this->status = status; }
 void Order::setIsEmergency(bool emergency) { this->isEmergency = emergency; }
 void Order::setItems(const std::vector<std::string>& items) { this->items = items; }
 
-// Сериализация: id;clientId;days;status;isEmergency(0/1);item1,item2
 std::string Order::toString() const {
     std::ostringstream oss;
     oss << id << ";" << clientId << ";" << days << ";"

@@ -3,5 +3,5 @@
 3;Козлов Дмитрий;kozlov_d@mail.ru
 4;Новикова Елена;novikova.elena@gmail.com
 5;Морозов Сергей;morozov.s@inbox.ru
-6;asd;2
-7;Олег петров;petrov@mail.ru
+6;Олег петров;petrov@mail.ru
+7;Алексей;alex111@mail.ru

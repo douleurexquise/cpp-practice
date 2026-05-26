@@ -40,7 +40,7 @@ public:
     static const std::vector<std::string>& getCatalog();// возвращает ссылку на список допустимых вещей
     // это для защиты от "мусорного" ввода по типу "24фыв"
     static bool isValidItem(const std::string& item);
-    static std::string statusToString(OrderStatus status);// ???????
+    static std::string statusToString(OrderStatus status);
     static OrderStatus statusFromString(const std::string& str);
 
     std::string toString() const;

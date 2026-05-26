@@ -18,7 +18,6 @@ public:
     OrderDB();
     ~OrderDB();
     void addOrder(int clientId, int daysAgo, OrderStatus status, bool isUrgent, const std::vector<std::string>& items);
-    bool removeOrder(int id);
     bool updateOrder(int id, int daysAgo, OrderStatus status, bool isUrgent, const std::vector<std::string>& items);
     bool updateOrderStatus(int id, OrderStatus newStatus);
     Order getOrderById(int id) const;

@@ -5,7 +5,7 @@
 #include "ClientDB.h"
 #include "OrderDB.h"
 
-void clearCin() {c
+void clearCin() {
     std::cin.clear();
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
@@ -56,6 +56,13 @@ void printOrders(const OrderDB& db) {
 }
 
 int main() {
+    std::cout <<
+    "**************************************************************************\n"
+    "* Нижегородский государственный технический университет *\n"
+    "* Курсовая работа по дисциплине \"Программирование\" *\n"
+    "* Система управления заказами в химчистке  *\n"
+    "* Выполнил студент группы 24-ВМв Ложкин Степан Владимирович*\n"
+    "**************************************************************************\n";
     ClientDB clientDb;
     OrderDB orderDb;
     int choice = 0;
